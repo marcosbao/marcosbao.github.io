@@ -6,8 +6,8 @@ tags:
   - AI 落地
   - 项目管理
 featured: true
-cover: README.md
-coverAlt: OSS 上传测试文件
+cover: https://aisheishei.oss-cn-beijing.aliyuncs.com/test.png
+coverAlt: OSS 测试图片
 ---
 
 很多团队把“调用一个能力”误认为“构建了一种能力”。
