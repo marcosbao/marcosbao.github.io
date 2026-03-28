@@ -1,6 +1,4 @@
 ---
-import editorScript from '../scripts/milkdown-editor.ts?url';
-
 interface Props {
   initialTitle?: string;
   initialValue?: string;
@@ -25,7 +23,9 @@ const { initialTitle = '', initialValue = '' } = Astro.props;
   </div>
 </div>
 
-<script type="module" src={editorScript}></script>
+<script type="module">
+  import '../scripts/milkdown-editor.ts';
+</script>
 
 <style>
   .editor-shell {
