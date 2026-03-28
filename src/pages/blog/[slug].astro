@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ViewCounter from '../../components/ViewCounter.astro';
+import { getPost, getPosts } from '../../lib/posts';
+
+export async function getStaticPaths() {
+  return getPosts().map((post) => ({
+    params: { slug: post.slug }
+  }));
+}
+
+const post = getPost(Astro.params.slug || '');
+
+if (!post) {
+  return Astro.redirect('/blog');
+}
+
+const { Content } = post;
+---
+
+<BaseLayout title={`${post.title} · AiSheiShei`} description={post.description}>
+  <main class="page-section">
+    <div class="container">
+      <article class="post-shell glass">
+        <span class="eyebrow">Article</span>
+        <h1 style="margin-top:18px;font-size:clamp(36px,7vw,64px);line-height:1.08;letter-spacing:-1px;">
+          {post.title}
+        </h1>
+        <p class="article-lead" style="margin:16px 0 0;max-width:720px;font-size:18px;line-height:1.9;">
+          {post.description}
+        </p>
+        <div class="article-meta" style="margin-top:16px;display:flex;gap:12px;flex-wrap:wrap;font-size:14px;align-items:center;">
+          <span>{post.publishDate}</span>
+          <ViewCounter slug={post.slug} />
+          {post.tags.map((tag) => <span>{tag}</span>)}
+        </div>
+        {post.coverUrl && <img src={post.coverUrl} alt={post.coverAlt ?? post.title} style="width:100%;margin:26px 0 0;border-radius:24px;display:block;" />}
+        <div class="article-body" style="margin-top:30px;">
+          <Content />
+        </div>
+      </article>
+    </div>
+  </main>
+</BaseLayout>

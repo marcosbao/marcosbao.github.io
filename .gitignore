@@ -1,2 +1,7 @@
 /nbproject/private/
 /nbproject/
+.env
+node_modules/
+dist/
+.astro/
+server/views-api/node_modules/

@@ -1,0 +1,37 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getPosts } from '../../lib/posts';
+
+const posts = getPosts();
+---
+
+<BaseLayout title="博客 · AiSheiShei" description="AiSheiShei 博客文章列表。">
+  <main class="page-section">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <span class="eyebrow">Blog</span>
+          <h1 style="margin-top:16px;font-size:44px;">博客</h1>
+          <p style="margin:10px 0 0;max-width:680px;line-height:1.9;">
+            先只保留最简单的文章列表，不加分类页、不加搜索页。
+          </p>
+        </div>
+      </div>
+
+      <div style="display:grid;gap:18px;">
+        {posts.map((post) => (
+          <article class="content-card glass-soft post-list">
+            <h2 style="font-size:30px;line-height:1.36;">
+              <a href={`/blog/${post.slug}/`} style="text-decoration:none;">{post.title}</a>
+            </h2>
+            <p style="margin:12px 0 0;line-height:1.9;">{post.description}</p>
+            <div class="article-meta" style="margin-top:14px;display:flex;gap:12px;flex-wrap:wrap;font-size:14px;">
+              <span>{post.publishDate}</span>
+              {post.tags.map((tag) => <span>{tag}</span>)}
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </main>
+</BaseLayout>

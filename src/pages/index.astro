@@ -1,0 +1,74 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getPosts } from '../lib/posts';
+
+const posts = getPosts();
+const featured = posts.find((post) => post.featured) ?? posts[0];
+const latest = posts.filter((post) => post.slug !== featured?.slug).slice(0, 2);
+---
+
+<BaseLayout>
+  <main>
+    <section class="page-section">
+      <div class="container">
+        <div class="hero-card glass">
+          <span class="eyebrow">长期记录 AI 时代的噪音、落地、协作与个人判断</span>
+          <h1 style="margin-top:18px;font-size:clamp(42px,8vw,80px);line-height:.98;letter-spacing:-1.5px;">AiSheiShei</h1>
+          <p style="margin:16px 0 0;max-width:760px;font-size:18px;line-height:1.95;color:var(--sub);">
+            这里先保持极简：一个首页、一个博客列表、一个正文模板。
+            不追风口，也不堆功能，只把内容、判断和可持续维护的结构先搭好。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    {featured && (
+      <section class="page-section">
+        <div class="container">
+          <div class="section-head">
+            <div>
+              <h2 style="font-size:32px;">置顶文章</h2>
+              <p style="margin:8px 0 0;line-height:1.85;">首页先只保留一个重点入口。</p>
+            </div>
+            <a href="/blog" style="text-decoration:none;">查看全部</a>
+          </div>
+          <article class="content-card glass">
+            <span class="eyebrow">Featured</span>
+            <h3 style="margin-top:18px;font-size:34px;line-height:1.28;">{featured.title}</h3>
+            <p style="margin:16px 0 0;max-width:760px;font-size:16px;line-height:1.95;color:var(--sub);">{featured.description}</p>
+            <div class="article-meta" style="margin-top:18px;display:flex;gap:12px;flex-wrap:wrap;font-size:14px;">
+              <span>{featured.publishDate}</span>
+              {featured.tags.map((tag) => <span>{tag}</span>)}
+            </div>
+            <p style="margin:22px 0 0;"><a href={`/blog/${featured.slug}/`} style="text-decoration:none;">进入正文</a></p>
+          </article>
+        </div>
+      </section>
+    )}
+
+    <section class="page-section">
+      <div class="container">
+        <div class="section-head">
+          <div>
+            <h2 style="font-size:32px;">最新文章</h2>
+            <p style="margin:8px 0 0;line-height:1.85;">保持少量模块，方便后续慢慢长。</p>
+          </div>
+        </div>
+        <div style="display:grid;gap:18px;">
+          {latest.map((post) => (
+            <article class="content-card glass-soft post-list">
+              <h3 style="font-size:28px;line-height:1.38;">
+                <a href={`/blog/${post.slug}/`} style="text-decoration:none;">{post.title}</a>
+              </h3>
+              <p style="margin:12px 0 0;line-height:1.9;">{post.description}</p>
+              <div class="article-meta" style="margin-top:14px;display:flex;gap:12px;flex-wrap:wrap;font-size:14px;">
+                <span>{post.publishDate}</span>
+                {post.tags.map((tag) => <span>{tag}</span>)}
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
