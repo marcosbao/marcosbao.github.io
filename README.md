@@ -24,3 +24,54 @@ npm run dev
 - 完整地址可直接写 `https://...`
 - OSS 对象路径可写成 `posts/2026/example.jpg`
 - 最终会自动拼接 `OSS_PUBLIC_URL`
+
+## 浏览量状态
+
+当前浏览量组件默认降级为关闭状态，页面会保留位置，但不会主动请求接口。
+
+正式启用时需要同时满足：
+
+- `PUBLIC_ENABLE_VIEWS=true`
+- `PUBLIC_VIEW_API_BASE=https://api.aisheishei.tech`
+
+## .tech API 正式接入说明
+
+未来等 `aisheishei.tech` 和 API 域名准备好后，直接按下面这套接入即可。
+
+### 前端配置
+
+GitHub Actions Secrets 里保留或更新：
+
+- `PUBLIC_ENABLE_VIEWS=true`
+- `PUBLIC_VIEW_API_BASE=https://api.aisheishei.tech`
+- `OSS_REGION`
+- `OSS_ENDPOINT`
+- `OSS_BUCKET`
+- `OSS_PUBLIC_URL`
+
+### API 域名建议
+
+- 站点：`https://aisheishei.tech`
+- API：`https://api.aisheishei.tech`
+- `.dev` 站点也统一请求 `https://api.aisheishei.tech`
+
+### API 服务端环境变量
+
+服务端建议使用：
+
+- `PORT=8787`
+- `DATABASE_URL=postgresql://...`
+- `ALLOWED_ORIGINS=https://aisheishei.dev,https://www.aisheishei.dev,https://aisheishei.tech,https://www.aisheishei.tech`
+
+### Nginx 方向
+
+正式切换时，把 `api.aisheishei.tech` 反代到 ECS 上运行的 views API 容器即可。
+
+### 到时候你只要告诉我
+
+到时候你只需要告诉我下面几项，我就可以直接继续处理：
+
+- `api.aisheishei.tech` 是否已经解析到 ECS
+- 证书是否已可签发
+- `.tech` 是否已完成备案并可正常访问
+- 是否正式开启浏览量

@@ -4,8 +4,9 @@ interface Props {
 }
 
 const { slug } = Astro.props;
+const viewsEnabled = import.meta.env.PUBLIC_ENABLE_VIEWS === 'true';
 const apiBase = (import.meta.env.PUBLIC_VIEW_API_BASE || '').replace(/\/$/, '');
-const endpoint = apiBase ? `${apiBase}/views/${slug}` : '';
+const endpoint = viewsEnabled && apiBase ? `${apiBase}/views/${slug}` : '';
 ---
 
 <span class="view-counter" data-endpoint={endpoint}>
