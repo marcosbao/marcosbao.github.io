@@ -12,6 +12,13 @@
     "preview": "astro preview"
   },
   "dependencies": {
-    "astro": "^6.1.1"
+    "@milkdown/crepe": "^7.19.2",
+    "@milkdown/kit": "^7.19.2",
+    "@milkdown/plugin-clipboard": "^7.19.2",
+    "@milkdown/plugin-history": "^7.19.2",
+    "@milkdown/plugin-listener": "^7.19.2",
+    "@milkdown/theme-nord": "^7.19.2",
+    "astro": "^6.1.1",
+    "marked": "^17.0.5"
   }
 }

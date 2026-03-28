@@ -5,7 +5,8 @@ export const site = {
     '记录 AI 时代的噪音、落地、协作与个人判断，关注技术落地、项目管理与真实现场。',
   nav: [
     { href: '/', label: '首页' },
-    { href: '/blog', label: '博客' }
+    { href: '/blog', label: '博客' },
+    { href: '/editor', label: '编辑器' }
   ]
 };
 

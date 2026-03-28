@@ -4,11 +4,13 @@ import { site } from '../lib/site';
 interface Props {
   title?: string;
   description?: string;
+  hideChrome?: boolean;
 }
 
 const {
   title = `${site.title} · ${site.subtitle}`,
-  description = site.description
+  description = site.description,
+  hideChrome = false
 } = Astro.props;
 ---
 
@@ -184,9 +186,9 @@ const {
         max-width: var(--content-max);
       }
 
-      .article-body :global(p),
-      .article-body :global(li),
-      .article-body :global(blockquote) {
+      .article-body p,
+      .article-body li,
+      .article-body blockquote {
         font-family: var(--font-serif);
         font-size: 18px;
         line-height: 2;
@@ -194,21 +196,39 @@ const {
         color: #243142;
       }
 
-      .article-body :global(h2),
-      .article-body :global(h3) {
+      .article-body h2,
+      .article-body h3 {
         margin-top: 2.2rem;
         margin-bottom: 1rem;
         font-size: 28px;
+        line-height: 1.35;
+        letter-spacing: -0.02em;
       }
 
-      .article-body :global(img) {
+      .article-body ul,
+      .article-body ol {
+        margin: 1.2rem 0;
+        padding-left: 1.6rem;
+      }
+
+      .article-body li + li {
+        margin-top: 0.45rem;
+      }
+
+      .article-body blockquote {
+        margin: 1.6rem 0;
+        padding-left: 1rem;
+        border-left: 3px solid rgba(15, 77, 168, 0.22);
+      }
+
+      .article-body img {
         width: 100%;
         border-radius: 24px;
         display: block;
         margin: 2rem 0;
       }
 
-      .article-body :global(a) {
+      .article-body a {
         color: #0f4da8;
       }
 
@@ -238,35 +258,39 @@ const {
           padding: 22px;
         }
 
-        .article-body :global(p),
-        .article-body :global(li),
-        .article-body :global(blockquote) {
+        .article-body p,
+        .article-body li,
+        .article-body blockquote {
           font-size: 17px;
         }
       }
     </style>
   </head>
   <body>
-    <header class="site-header">
-      <div class="container">
-        <div class="site-nav glass-soft">
-          <div class="site-brand">
-            <strong>{site.title}</strong>
-            <span>{site.subtitle}</span>
+    {!hideChrome && (
+      <header class="site-header">
+        <div class="container">
+          <div class="site-nav glass-soft">
+            <div class="site-brand">
+              <strong>{site.title}</strong>
+              <span>{site.subtitle}</span>
+            </div>
+            <nav class="site-links">
+              {site.nav.map((item) => <a href={item.href}>{item.label}</a>)}
+            </nav>
           </div>
-          <nav class="site-links">
-            {site.nav.map((item) => <a href={item.href}>{item.label}</a>)}
-          </nav>
         </div>
-      </div>
-    </header>
+      </header>
+    )}
     <slot />
-    <footer class="footer">
-      <div class="container">
-        <div class="footer-card glass-soft muted">
-          关于 AI 乱象、技术落地、项目协作，以及那些还没来得及长成结论的碎片。
+    {!hideChrome && (
+      <footer class="footer">
+        <div class="container">
+          <div class="footer-card glass-soft muted">
+            关于 AI 乱象、技术落地、项目协作，以及那些还没来得及长成结论的碎片。
+          </div>
         </div>
-      </div>
-    </footer>
+      </footer>
+    )}
   </body>
 </html>
