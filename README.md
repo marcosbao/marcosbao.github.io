@@ -67,6 +67,48 @@ GitHub Actions Secrets 里保留或更新：
 
 正式切换时，把 `api.aisheishei.tech` 反代到 ECS 上运行的 views API 容器即可。
 
+## .tech 静态站自动部署
+
+仓库里已增加一条独立 workflow：
+
+- `.github/workflows/deploy-tech.yml`
+
+它的职责是：
+
+- 构建 Astro 站点
+- 通过 SSH / rsync 同步 `dist/` 到 ECS
+- 发布到 `/opt/aisheishei/site-tech/releases/<commit-sha>`
+- 自动切换 `/opt/aisheishei/site-tech/current`
+
+### 需要在 GitHub 配置的 secrets
+
+请在仓库的 `Settings -> Secrets and variables -> Actions -> Secrets` 中新增：
+
+- `TECH_DEPLOY_HOST`
+- `TECH_DEPLOY_PORT`
+- `TECH_DEPLOY_USER`
+- `TECH_DEPLOY_PATH`
+- `TECH_DEPLOY_SSH_KEY`
+
+推荐值：
+
+- `TECH_DEPLOY_HOST=8.140.222.47`
+- `TECH_DEPLOY_PORT=22`
+- `TECH_DEPLOY_USER=root`
+- `TECH_DEPLOY_PATH=/opt/aisheishei/site-tech`
+
+`TECH_DEPLOY_SSH_KEY` 需要填写一把可登录该服务器的私钥内容。
+
+### 需要在 GitHub 配置的 variables
+
+在 `Settings -> Secrets and variables -> Actions -> Variables` 中建议配置：
+
+- `PUBLIC_ENABLE_VIEWS=false`
+
+等正式启用浏览量时，再改成：
+
+- `PUBLIC_ENABLE_VIEWS=true`
+
 ### 到时候你只要告诉我
 
 到时候你只需要告诉我下面几项，我就可以直接继续处理：
