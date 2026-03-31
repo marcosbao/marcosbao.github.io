@@ -13,31 +13,33 @@ const endpoint = `${apiBase}/views/${slug}`;
   <span class="view-counter__value">--</span>
 </span>
 
-<script>
-  const counters = document.querySelectorAll('.view-counter');
+<script is:inline>
+  window.addEventListener('DOMContentLoaded', () => {
+    const counters = document.querySelectorAll('.view-counter');
 
-  counters.forEach(async (counter) => {
-    const value = counter.querySelector('.view-counter__value');
-    const endpoint = counter.getAttribute('data-endpoint');
+    counters.forEach(async (counter) => {
+      const value = counter.querySelector('.view-counter__value');
+      const endpoint = counter.getAttribute('data-endpoint');
 
-    if (!value || !endpoint) {
-      if (value) value.textContent = '--';
-      return;
-    }
+      if (!value || !endpoint) {
+        if (value) value.textContent = '--';
+        return;
+      }
 
-    try {
-      const response = await fetch(endpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
+      try {
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
 
-      if (!response.ok) throw new Error('Request failed');
-      const data = await response.json();
-      value.textContent = String(data.count ?? 0);
-    } catch {
-      value.textContent = '--';
-    }
+        if (!response.ok) throw new Error('Request failed');
+        const data = await response.json();
+        value.textContent = String(data.count ?? 0);
+      } catch {
+        value.textContent = '--';
+      }
+    });
   });
 </script>
