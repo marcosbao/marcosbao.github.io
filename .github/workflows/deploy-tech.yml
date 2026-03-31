@@ -57,7 +57,18 @@ jobs:
           RELEASE_DIR="$TECH_DEPLOY_PATH/releases/$GITHUB_SHA"
           ssh -p "$TECH_DEPLOY_PORT" "$TECH_DEPLOY_USER@$TECH_DEPLOY_HOST" "mkdir -p '$RELEASE_DIR' '$TECH_DEPLOY_PATH/releases'"
           rsync -az --delete -e "ssh -p $TECH_DEPLOY_PORT" dist/ "$TECH_DEPLOY_USER@$TECH_DEPLOY_HOST:$RELEASE_DIR/"
-          ssh -p "$TECH_DEPLOY_PORT" "$TECH_DEPLOY_USER@$TECH_DEPLOY_HOST" "ln -sfn '$RELEASE_DIR' '$TECH_DEPLOY_PATH/current' && chown -h www-data:www-data '$TECH_DEPLOY_PATH/current' && find '$RELEASE_DIR' -type d -exec chmod 755 {} \\; && find '$RELEASE_DIR' -type f -exec chmod 644 {} \\;"
+          ssh -p "$TECH_DEPLOY_PORT" "$TECH_DEPLOY_USER@$TECH_DEPLOY_HOST" '
+            set -e
+            RELEASE_DIR="'"$RELEASE_DIR"'"
+            CURRENT_PATH="'"$TECH_DEPLOY_PATH"'/current"
+            if [ -e "$CURRENT_PATH" ] && [ ! -L "$CURRENT_PATH" ]; then
+              rm -rf "$CURRENT_PATH"
+            fi
+            ln -sfn "$RELEASE_DIR" "$CURRENT_PATH"
+            find "$RELEASE_DIR" -type d -exec chmod 755 {} \;
+            find "$RELEASE_DIR" -type f -exec chmod 644 {} \;
+            chown -R www-data:www-data "$RELEASE_DIR"
+          '
         env:
           TECH_DEPLOY_HOST: ${{ secrets.TECH_DEPLOY_HOST }}
           TECH_DEPLOY_PORT: ${{ secrets.TECH_DEPLOY_PORT }}
