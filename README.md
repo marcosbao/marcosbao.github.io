@@ -27,16 +27,11 @@ npm run dev
 
 ## 浏览量状态
 
-当前浏览量组件默认降级为关闭状态，页面会保留位置，但不会主动请求接口。
-
-正式启用时需要同时满足：
-
-- `PUBLIC_ENABLE_VIEWS=true`
-- `PUBLIC_VIEW_API_BASE=https://api.aisheishei.tech`
-
-当前正式接口已确定为：
+当前浏览量接口已固定接到：
 
 - `https://api.aisheishei.tech`
+
+博客正文页会直接请求该接口，不再依赖前端构建期环境变量开关。
 
 ## .tech API 正式接入说明
 
@@ -44,10 +39,8 @@ npm run dev
 
 ### 前端配置
 
-GitHub Actions Secrets 里保留或更新：
+当前前端已将浏览量 API 固定写入代码，GitHub Actions 里只需要保留：
 
-- `PUBLIC_ENABLE_VIEWS=true`
-- `PUBLIC_VIEW_API_BASE=https://api.aisheishei.tech`
 - `OSS_REGION`
 - `OSS_ENDPOINT`
 - `OSS_BUCKET`
@@ -102,16 +95,6 @@ GitHub Actions Secrets 里保留或更新：
 - `TECH_DEPLOY_PATH=/opt/aisheishei/site-tech`
 
 `TECH_DEPLOY_SSH_KEY` 需要填写一把可登录该服务器的私钥内容。
-
-### 需要在 GitHub 配置的 variables
-
-在 `Settings -> Secrets and variables -> Actions -> Variables` 中建议配置：
-
-- `PUBLIC_ENABLE_VIEWS=false`
-
-等正式启用浏览量时，再改成：
-
-- `PUBLIC_ENABLE_VIEWS=true`
 
 ### 到时候你只要告诉我
 
