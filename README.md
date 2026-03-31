@@ -34,6 +34,10 @@ npm run dev
 - `PUBLIC_ENABLE_VIEWS=true`
 - `PUBLIC_VIEW_API_BASE=https://api.aisheishei.tech`
 
+当前正式接口已确定为：
+
+- `https://api.aisheishei.tech`
+
 ## .tech API 正式接入说明
 
 未来等 `aisheishei.tech` 和 API 域名准备好后，直接按下面这套接入即可。
